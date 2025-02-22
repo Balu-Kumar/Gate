@@ -19,11 +19,20 @@
             font-size: 24px;
         }
         .container {
+            display: flex;
+            max-width: 1000px;
             margin: 20px auto;
-            max-width: 800px;
             background-color: #fff;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .subjects {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .notes {
+            flex: 2;
+            padding: 20px;
         }
         h2 {
             color: #4CAF50;
@@ -95,28 +104,31 @@
         Core Subjects
     </header>
     <div class="container">
-        <h2>Subjects</h2>
-        <ul id="subjects-list">
-            <li onclick="showNotes('fluid_mechanics')">Fluid Mechanics</li>
-            <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
-            <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
-            <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
-            <li onclick="showNotes('process_control')">Process Control</li>
-            <li onclick="showNotes('chemical_engineering_thermodynamics')">Chemical Engineering Thermodynamics</li>
-            <li onclick="showNotes('materials_science')">Materials Science</li>
-            <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
-            <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
-            <li onclick="showNotes('transport_phenomena')">Transport Phenomena</li>
-        </ul>
-        <div id="notes-container" class="hidden">
-            <h2 id="notes-title"></h2>
-            <div class="notes-container">
-                <input type="date" id="note-date">
-                <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
-                <button onclick="addNote()">Add Note</button>
+        <div class="subjects">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <div id="notes-container" class="hidden">
+                <h2 id="notes-title"></h2>
+                <div class="notes-container">
+                    <input type="date" id="note-date">
+                    <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
+                    <button onclick="addNote()">Add Note</button>
+                </div>
+                <h2>Saved Notes</h2>
+                <ul id="notes-list" class="notes-list"></ul>
             </div>
-            <h2>Saved Notes</h2>
-            <ul id="notes-list" class="notes-list"></ul>
         </div>
     </div>
     <script>
@@ -171,9 +183,14 @@
                 noteItem.innerHTML = `
                     <strong>${note.date}:</strong> ${note.content}
                     <button onclick="deleteNote('${subject}', ${index})">Delete</button>
+                    <button onclick="showPopup('${note.content}')">View</button>
                 `;
                 notesList.appendChild(noteItem);
             });
+        }
+
+        function showPopup(content) {
+            alert(content);
         }
     </script>
 </body>
