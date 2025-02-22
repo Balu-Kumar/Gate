@@ -145,6 +145,17 @@
             });
         }
 
+        function deleteNoteInLocalStorage(subject, date) {
+            const notes = getNotes(subject);
+            const updatedNotes = notes.filter(note => note.date !== date);
+            localStorage.setItem(subject + '-notes', JSON.stringify(updatedNotes));
+        }
+
+        function deleteNoteOnPreviousPage(subject, date) {
+            deleteNoteInLocalStorage(subject, date);
+            displayNotes(subject);
+        }
+
         function goBack() {
             window.location.href = 'core.html';
         }
