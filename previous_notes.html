@@ -73,15 +73,20 @@
             background-color: #ddd;
         }
         .note-item {
-            background-color: #f9f9f9;
+            position: relative;
             margin-bottom: 10px;
             padding: 10px;
             border-left: 5px solid #4CAF50;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
+        .note-item button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
         .note-preview {
             display: inline-block;
-            max-width: 70%;
+            max-width: 60%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
