@@ -39,11 +39,172 @@
             overflow-y: auto;
             height: 100%;
         }
-        .display-content {
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+        .notes-container input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .ql-container {
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .ql-editor {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .notes-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .notes-container button:hover {
+            background-color: #45a049;
+        }
+        .notes-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .note-item button {
+            background-color: red;
+            color: white;
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .note-item button:hover {
+            background-color: darkred;
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Core Subjects
+    </header>
+    <div class="container">
+        <div class="subjects">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+            <button onclick="showPreviousNotes()">Previous Notes</button>
+        </div>
+        <div class="notes">
+            <input type="text" id="search-bar" placeholder="Search notes..." oninput="searchNotes()">
+            <div id="notes-container" class="hidden">
+                <h2 id="notes-title"></h2>
+                <div class="notes-container">
+                    <input type="date" id="note-date">
+                    <div id="editor-container"></div>
+                    <button onclick="addRichNote()">Add Note</button>
+                    <button onclick="undo()">Undo</button>
+                    <button onclick="redo()">Redo</button>
+                </div>
+                <h2>Saved Notes</h2>
+                <ul id="notes-list" class="notes-list"></ul>
+            </div>
+            <div id="display-content" class="hidden">
+                <h2>Note Content</h2>
+                <p id="note-content-display"></p>
+                <button id="delete-note-button" class="hidden">Delete</button>
+                <button onclick="backToList()">Back</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Subjects</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #fff;
+            height: calc(100vh - 60px);
+        }
+        .subjects {
             flex: 1;
             padding: 20px;
+            border-right: 1px solid #ddd;
             overflow-y: auto;
-            height: 30%;
+            height: 100%;
+        }
+        .notes {
+            flex: 2;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
         }
         h2 {
             color: #4CAF50;
@@ -125,17 +286,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        @media screen and (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .subjects, .notes, .display-content {
-                width: 100%;
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-                height: auto;
-            }
-        }
     </style>
 </head>
 <body>
@@ -156,6 +306,7 @@
                 <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
                 <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
             </ul>
+            <button onclick="showPreviousNotes()">Previous Notes</button>
         </div>
         <div class="notes">
             <input type="text" id="search-bar" placeholder="Search notes..." oninput="searchNotes()">
@@ -186,6 +337,7 @@
         });
 
         document.getElementById('note-date').valueAsDate = new Date();
+
         function showNotes(subject) {
             document.getElementById('notes-container').classList.remove('hidden');
             document.getElementById('display-content').classList.add('hidden');
@@ -211,7 +363,7 @@
                 const noteItem = document.createElement('li');
                 noteItem.className = 'note-item';
                 noteItem.innerHTML = `
-                    <span class="note-preview">${capitalizePreview(note.content)}</span>
+                    <span class="note-preview"><b>${note.date}</b>: ${capitalizePreview(note.content)}</span>
                 `;
                 noteItem.onclick = () => {
                     displayNoteContent(note.content);
@@ -250,7 +402,7 @@
                 const noteItem = document.createElement('li');
                 noteItem.className = 'note-item';
                 noteItem.innerHTML = `
-                    <span class="note-preview">${capitalizePreview(note.content)}</span>
+                    <span class="note-preview"><b>${note.date}</b>: ${capitalizePreview(note.content)}</span>
                 `;
                 noteItem.onclick = () => {
                     displayNoteContent(note.content);
@@ -260,6 +412,7 @@
                 notesList.appendChild(noteItem);
             });
         }
+
         function addRichNote() {
             const date = document.getElementById('note-date').value;
             const content = quill.root.innerHTML;
@@ -291,6 +444,293 @@
             document.getElementById('notes-container').classList.remove('hidden');
             document.getElementById('delete-note-button').classList.add('hidden');
         }
+
+        function capitalizePreview(content) {
+            return content.replace(/\b\w/g, char => char.toUpperCase());
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Subjects</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            margin: 0 auto;
+            background-color: #fff;
+            height: calc(100vh - 60px);
+        }
+        .subjects {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .notes {
+            flex: 2;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+        .notes-container input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .ql-container {
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        .ql-editor {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        .notes-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .notes-container button:hover {
+            background-color: #45a049;
+        }
+        .notes-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .note-item button {
+            background-color: red;
+            color: white;
+            padding: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .note-item button:hover {
+            background-color: darkred;
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Core Subjects
+    </header>
+    <div class="container">
+        <div class="subjects">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+            <button onclick="showPreviousNotes()">Previous Notes</button>
+        </div>
+        <div class="notes">
+            <input type="text" id="search-bar" placeholder="Search notes..." oninput="searchNotes()">
+            <div id="notes-container" class="hidden">
+                <h2 id="notes-title"></h2>
+                <div class="notes-container">
+                    <input type="date" id="note-date">
+                    <div id="editor-container"></div>
+                    <button onclick="addRichNote()">Add Note</button>
+                    <button onclick="undo()">Undo</button>
+                    <button onclick="redo()">Redo</button>
+                </div>
+                <h2>Saved Notes</h2>
+                <ul id="notes-list" class="notes-list"></ul>
+            </div>
+            <div id="display-content" class="hidden">
+                <h2>Note Content</h2>
+                <p id="note-content-display"></p>
+                <button id="delete-note-button" class="hidden">Delete</button>
+                <button onclick="backToList()">Back</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow'
+        });
+
+        document.getElementById('note-date').valueAsDate = new Date();
+
+        function showNotes(subject) {
+            document.getElementById('notes-container').classList.remove('hidden');
+            document.getElementById('display-content').classList.add('hidden');
+            document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
+            displayNotes(subject);
+        }
+
+        function getNotes(subject) {
+            const notes = localStorage.getItem(subject + '-notes');
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function saveNotes(subject, notes) {
+            localStorage.setItem(subject + '-notes', JSON.stringify(notes));
+            displayNotes(subject);
+        }
+
+        function displayNotes(subject) {
+            const notes = getNotes(subject);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview"><b>${note.date}</b>: ${capitalizePreview(note.content)}</span>
+                `;
+                noteItem.onclick = () => {
+                    displayNoteContent(note.content);
+                    document.getElementById('delete-note-button').classList.remove('hidden');
+                    document.getElementById('delete-note-button').onclick = () => confirmDelete(subject, note.date);
+                };
+                notesList.appendChild(noteItem);
+            });
+        }
+
+        function deleteNote(subject, date) {
+            const notes = getNotes(subject);
+            const updatedNotes = notes.filter(note => note.date !== date);
+            saveNotes(subject, updatedNotes);
+            backToList();
+        }
+
+        function confirmDelete(subject, date) {
+            if (confirm("Are you sure you want to delete this note?")) {
+                deleteNote(subject, date);
+            }
+        }
+
+        function displayNoteContent(content) {
+            document.getElementById('display-content').classList.remove('hidden');
+            document.getElementById('notes-container').classList.add('hidden');
+            document.getElementById('note-content-display').innerHTML = content;
+        }
+
+        function searchNotes() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const notes = getNotes(document.getElementById('notes-title').innerText.replace(' Notes', '').replace(/ /g, '_').toLowerCase());
+            const filteredNotes = notes.filter(note => note.content.toLowerCase().includes(searchTerm));
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            filteredNotes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview"><b>${note.date}</b>: ${capitalizePreview(note.content)}</span>
+                `;
+                noteItem.onclick = () => {
+                    displayNoteContent(note.content);
+                    document.getElementById('delete-note-button').classList.remove('hidden');
+                    document.getElementById('delete-note-button').onclick = () => confirmDelete(subject, note.date);
+                };
+                notesList.appendChild(noteItem);
+            });
+        }
+
+        function addRichNote() {
+            const date = document.getElementById('note-date').value;
+            const content = quill.root.innerHTML;
+            if (!date || !content) return;
+
+            const subject = document.getElementById('notes-title').innerText.replace(' Notes', '').replace(/ /g, '_').toLowerCase();
+            const notes = getNotes(subject);
+            notes.push({ date, content });
+            saveNotes(subject, notes);
+            quill.setContents([]);
+            document.getElementById('note-date').valueAsDate = new Date();
+        }
+
+        function undo() {
+            quill.history.undo();
+        }
+
+        function redo() {
+            quill.history.redo();
+        }
+
+        function backToList() {
+            document.getElementById('display-content').classList.add('hidden');
+            document.getElementById('notes-container').classList.remove('hidden');
+            document.getElementById('delete-note-button').classList.add('hidden');
+        }
+
+        function showPreviousNotes() {
+            window.location.href = 'previous_notes.html';
+        }
+
         function capitalizePreview(content) {
             return content.replace(/\b\w/g, char => char.toUpperCase());
         }
