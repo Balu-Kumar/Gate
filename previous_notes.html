@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Notes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+        }
+        .subjects, .notes {
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .subjects {
+            flex: 1;
+        }
+        .notes {
+            flex: 2;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Previous Notes
+    </header>
+    <div class="container">
+        <div class="subjects">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <h2 id="notes-title">Notes</h2>
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Notes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+        }
+        .subjects, .notes {
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .subjects {
+            flex: 1;
+        }
+        .notes {
+            flex: 2;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Previous Notes
+    </header>
+    <div class="container">
+        <div class="subjects">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <h2 id="notes-title">Notes</h2>
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
+    <script>
+        function showNotes(subject) {
+            document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
+            displayNotes(subject);
+        }
+
+        function getNotes(subject) {
+            const notes = localStorage.getItem(subject + '-notes');
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function displayNotes(subject) {
+            const notes = getNotes(subject);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview">${note.content}</span>
+                    <span class="note-date">${note.date}</span>
+                `;
+                notesList.appendChild(noteItem);
+            });
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Notes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+            overflow-x: auto;
+        }
+        .resizable {
+            resize: horizontal;
+            overflow: auto;
+        }
+        .subjects {
+            flex: 1;
+            min-width: 200px;
+            max-width: 50%;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .notes {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Previous Notes
+    </header>
+    <div class="container">
+        <div class="subjects resizable">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <h2 id="notes-title">Notes</h2>
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
+    <script>
+        function showNotes(subject) {
+            document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
+            displayNotes(subject);
+        }
+
+        function getNotes(subject) {
+            const notes = localStorage.getItem(subject + '-notes');
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function displayNotes(subject) {
+            const notes = getNotes(subject);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview">${note.content}</span>
+                    <span class="note-date">${note.date}</span>
+                `;
+                notesList.appendChild(noteItem);
+            });
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Notes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+            overflow-x: auto;
+        }
+        .resizable {
+            resize: horizontal;
+            overflow: auto;
+        }
+        .subjects {
+            flex: 1;
+            min-width: 200px;
+            max-width: 50%;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .notes {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Previous Notes
+    </header>
+    <div class="container">
+        <div class="subjects resizable">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <h2 id="notes-title">Notes</h2>
+            <ul id="notes-list"></ul>
+        </div>
+    </div>
+    <script>
+        function showNotes(subject) {
+            document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
+            displayNotes(subject);
+        }
+
+        function getNotes(subject) {
+            const notes = localStorage.getItem(subject + '-notes');
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function displayNotes(subject) {
+            const notes = getNotes(subject);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview">${note.content}</span>
+                    <span class="note-date">${note.date}</span>
+                `;
+                notesList.appendChild(noteItem);
+            });
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Notes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 60px);
+            overflow-x: auto;
+        }
+        .resizable {
+            resize: horizontal;
+            overflow: auto;
+        }
+        .subjects {
+            flex: 1;
+            min-width: 200px;
+            max-width: 50%;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .notes {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            height: 100%;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .note-preview {
+            display: inline-block;
+            max-width: 70%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #777;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Previous Notes
+    </header>
+    <div class="container">
+        <div class="subjects resizable">
+            <h2>Subjects</h2>
+            <ul id="subjects-list">
+                <li onclick="showNotes('engineering_mathematics')">Engineering Mathematics</li>
+                <li onclick="showNotes('process_calculations_and_thermodynamics')">Process Calculations and Thermodynamics</li>
+                <li onclick="showNotes('fluid_mechanics_and_mechanical_operations')">Fluid Mechanics and Mechanical Operations</li>
+                <li onclick="showNotes('heat_transfer')">Heat Transfer</li>
+                <li onclick="showNotes('mass_transfer')">Mass Transfer</li>
+                <li onclick="showNotes('chemical_reaction_engineering')">Chemical Reaction Engineering</li>
+                <li onclick="showNotes('instrumentation_and_process_control')">Instrumentation and Process Control</li>
+                <li onclick="showNotes('plant_design_and_economics')">Plant Design and Economics</li>
+                <li onclick="showNotes('chemical_technology')">Chemical Technology</li>
+            </ul>
+        </div>
+        <div class="notes">
+            <h2 id="notes-title">Notes</h2>
+            <ul id="notes-list"></ul>
+            <button onclick="goBack()">Back to Core Page</button>
+        </div>
+    </div>
+    <script>
+        function showNotes(subject) {
+            document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
+            displayNotes(subject);
+        }
+
+        function getNotes(subject) {
+            const notes = localStorage.getItem(subject + '-notes');
+            return notes ? JSON.parse(notes) : [];
+        }
+
+        function displayNotes(subject) {
+            const notes = getNotes(subject);
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            notes.forEach(note => {
+                const noteItem = document.createElement('li');
+                noteItem.className = 'note-item';
+                noteItem.innerHTML = `
+                    <span class="note-preview">${note.content}</span>
+                    <span class="note-date">${note.date}</span>
+                `;
+                notesList.appendChild(noteItem);
+            });
+        }
+
+        function goBack() {
+            window.location.href = 'core.html';
+        }
+    </script>
+</body>
+</html>
