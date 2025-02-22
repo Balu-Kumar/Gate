@@ -181,27 +181,27 @@
                     const noteItem = document.createElement('li');
                     noteItem.className = 'note-item';
                     noteItem.innerHTML = `<span class="note-preview">${note.content}</span>
-                                          <button onclick="confirmDelete('${subject}', '${note.date}')">Delete</button>`;
+                                          <button onclick="confirmDelete('${subject}', '${note.date}', '${note.content}')">Delete</button>`;
                     dateGroup.appendChild(noteItem);
                 });
                 notesList.appendChild(dateGroup);
             });
         }
 
-        function confirmDelete(subject, date) {
+        function confirmDelete(subject, date, content) {
             if (confirm("Are you sure you want to delete this note?")) {
-                deleteNoteOnPreviousPage(subject, date);
+                deleteNoteOnPreviousPage(subject, date, content);
             }
         }
 
-        function deleteNoteInLocalStorage(subject, date) {
+        function deleteNoteInLocalStorage(subject, date, content) {
             const notes = getNotes(subject);
-            const updatedNotes = notes.filter(note => note.date !== date);
+            const updatedNotes = notes.filter(note => !(note.date === date && note.content === content));
             localStorage.setItem(subject + '-notes', JSON.stringify(updatedNotes));
         }
 
-        function deleteNoteOnPreviousPage(subject, date) {
-            deleteNoteInLocalStorage(subject, date);
+        function deleteNoteOnPreviousPage(subject, date, content) {
+            deleteNoteInLocalStorage(subject, date, content);
             displayNotes(subject);
         }
 
