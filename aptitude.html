@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aptitude</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            margin: 20px;
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        .notes-container input, .notes-container textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .notes-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .note-item {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Aptitude Notes</h1>
+    </header>
+    <div class="container">
+        <div class="notes-container">
+            <input type="date" id="note-date">
+            <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
+            <button onclick="addNote()">Add Note</button>
+            <ul id="notes-list" class="notes-list"></ul>
+        </div>
+    </div>
+    <script>
+        function addNote() {
+            var date = document.getElementById('note-date').value;
+            var content = document.getElementById('note-content').value;
+            if (!date || !content) {
+                alert('Please fill out both date and content!');
+                return;
+            }
+
+            var notesList = document.getElementById('notes-list');
+            var noteItem = document.createElement('li');
+            noteItem.class
