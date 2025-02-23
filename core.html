@@ -151,6 +151,7 @@
                     <button onclick="addRichNote()">Add Note</button>
                     <button onclick="undo()">Undo</button>
                     <button onclick="redo()">Redo</button>
+                    <button id="voice-input-button" onmousedown="startVoiceInput()" onmouseup="stopVoiceInput()">Hold to Speak</button>
                 </div>
                 <h2>Saved Notes</h2>
                 <ul id="notes-list" class="notes-list"></ul>
@@ -212,7 +213,6 @@
                 notesList.appendChild(noteItem);
             }
         }
-
         function deleteNoteInLocalStorage(subject, date) {
             const notes = getNotes(subject);
             const updatedNotes = notes.filter(note => note.date !== date);
@@ -226,11 +226,12 @@
         }
 
         function displayNoteContent(content) {
-          document.getElementById('display-content').classList.remove('hidden');
+            document.getElementById('display-content').classList.remove('hidden');
             document.getElementById('notes-container').classList.add('hidden');
             document.getElementById('note-content-display').innerHTML = content;
         }
-                function searchNotes() {
+
+        function searchNotes() {
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
             const notes = getNotes(document.getElementById('notes-title').innerText.replace(' Notes', '').replace(/ /g, '_').toLowerCase());
             const filteredNotes = notes.filter(note => note.content.toLowerCase().includes(searchTerm));
@@ -263,6 +264,7 @@
             quill.setContents([]);
             document.getElementById('note-date').valueAsDate = new Date();
         }
+
         function undo() {
             quill.history.undo();
         }
@@ -270,7 +272,6 @@
         function redo() {
             quill.history.redo();
         }
-
         function backToList() {
             document.getElementById('display-content').classList.add('hidden');
             document.getElementById('notes-container').classList.remove('hidden');
@@ -280,6 +281,7 @@
         function capitalizePreview(content) {
             return content.replace(/\b\w/g, char => char.toUpperCase());
         }
+
         function showPreviousNotes() {
             window.location.href = 'previous_notes.html';
         }
@@ -287,6 +289,37 @@
         function goBackHome() {
             window.location.href = 'index.html'; // Assuming the home page is 'index.html'
         }
+    </script>
+    <script>
+        var recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        } else if ('SpeechRecognition' in window) {
+            recognition = new SpeechRecognition();
+        } else {
+            alert('Your browser does not support the Web Speech API');
+        }
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        function startVoiceInput() {
+            recognition.start();
+        }
+
+        function stopVoiceInput() {
+            recognition.stop();
+        }
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            quill.clipboard.dangerouslyPasteHTML(quill.getLength() - 1, ' ' + transcript);
+        };
+
+        recognition.onerror = function(event) {
+            console.error(event.error);
+        };
     </script>
 </body>
 </html>
