@@ -76,9 +76,10 @@
         </ul>
     </div>
 
-    <div class="formula-heading">Formulas</div>
-    <div class="box" id="box1"></div>
-
+   <div class="formula-container">
+        <div class="formula-heading">Formulas</div>
+        <div class="box" id="box1"></div>
+</div>
     <script>
         function navigateTo(page) {
             window.location.href = page;
@@ -166,9 +167,7 @@
             "Hydraulic Diameter: D_h = 4A / P",
             "Turbulent Flow Velocity Profile: (u/u*) = 2.5 ln ( (yu*)/ν ) + 5.5"
         ];
-
-        
-        let currentFormulaIndex = 0;
+      let currentFormulaIndex = 0;
 
         function showNextFormula() {
             currentFormulaIndex = (currentFormulaIndex + 1) % formulas.length;
