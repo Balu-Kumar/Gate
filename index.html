@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+    <title>Homepage with Formulas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            display: flex;
+            flex-wrap: wrap;
+            height: 100vh;
+            justify-content: space-between;
         }
         header {
             background-color: #4CAF50;
@@ -17,50 +21,185 @@
             padding: 15px;
             text-align: center;
             font-size: 24px;
+            width: 100%;
         }
-        .container {
-            margin: 20px auto;
-            max-width: 800px;
+        .box {
+            width: 45%;
+            height: 45%;
+            margin: 10px;
+            border: 2px solid #4CAF50;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
             background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #4CAF50;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: white;
-            margin-bottom: 10px;
-            padding: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-        li:hover {
-            background-color: #ddd;
         }
     </style>
 </head>
 <body>
     <header>
-        Homepage
+        Homepage with Formulas
     </header>
-    <div class="container">
-        <h2>Topics</h2>
-        <ul>
-            <li onclick="navigateTo('english.html')">English</li>
-            <li onclick="navigateTo('aptitude.html')">Aptitude</li>
-            <li onclick="navigateTo('mathematics.html')">Mathematics</li>
-            <li onclick="navigateTo('core.html')">Core</li>
-        </ul>
-    </div>
+    <div class="box" id="box1"></div>
+    <div class="box" id="box2"></div>
+    <div class="box" id="box3"></div>
+    <div class="box" id="box4"></div>
     <script>
-        function navigateTo(page) {
-            window.location.href = page;
+        const heatTransferFormulas = [
+            "Unsteady State Heat Conduction: ∂T/∂t = α ( ∂²T/∂x² + ∂²T/∂y² + ∂²T/∂z² )",
+            "Heat Conduction in Spherical Coordinates: (1/r²) ∂/∂r ( r² ∂T/∂r ) + (1/r² sin θ) ∂/∂θ ( sin θ ∂T/∂θ ) + (1/r² sin² θ) ∂²T/∂φ² = (1/α) ∂T/∂t",
+            "Heat Equation in Cylindrical Coordinates: (1/r) ∂/∂r ( r ∂T/∂r ) + (1/r²) ∂²T/∂θ² + ∂²T/∂z² = (1/α) ∂T/∂t",
+            "Radiation Heat Transfer (View Factor): F₁₂ = (1/A₁) ∫∫ ( cos θ₁ cos θ₂ / πr² ) dA₂ dA₁",
+            "Heat Exchanger Design (Log Mean Temperature Difference): ΔTₗₘ = (ΔT₁ - ΔT₂) / ln ( ΔT₁ / ΔT₂ )",
+            "Combined Conduction and Convection: 1/h = L/k + 1/hᵢ",
+            "Non-dimensional Numbers for Convection (Grashof Number): Gr = gβ(Tₛ - T∞)L³ / ν²",
+            "Non-dimensional Numbers for Convection (Biot Number): Bi = hL/k",
+            "Heat Transfer in Laminar Flow: Nu = 4.36 (for constant wall heat flux)",
+            "Heat Transfer in Turbulent Flow: Nu = 0.023 Re⁰.⁸ Pr⁰.⁴",
+            "Heat Transfer through Composite Wall: q = ΔT / Σ (Lᵢ/kᵢA)",
+            "Transient Heat Conduction (Lumped Capacitance Model): T(t) = T_∞ + (T_i - T_∞) e^(-hA/ρCpV t)",
+            "Heat Transfer through a Slab: q = kA(T_1 - T_2)/L",
+            "Thermal Resistance: R = L/kA",
+            "Critical Thickness of Insulation: r_c = k/h",
+            "Effectiveness of a Heat Exchanger (ε-NTU Method): ε = 1 - e^(-NTU(1-C_r))",
+            "Heat Transfer Coefficient in Flow Over Flat Plate: Nu = 0.332 Re^1/2 Pr^1/3",
+            "Boiling Heat Transfer (Nucleate Boiling): q'' = C_s (T_s - T_sat)^n",
+            "Condensation Heat Transfer (Film Condensation): q'' = 0.943 [(ρ(ρ-ρ_v)gh_fgk^3/μ(T_s-T_sat)L)^1/4]",
+            "Heat Transfer in Extended Surfaces (Fins): q_f = √(hPkA_c)(T_b-T_∞) tanh(√(hPk/kA_c)L)"
+        ];
+        const massTransferFormulas = [
+            "Unsteady State Diffusion (Fick's Second Law in Spherical Coordinates): ∂C/∂t = D ( 1/r² ∂/∂r ( r² ∂C/∂r ) + 1/r² sin θ ∂/∂θ ( sin θ ∂C/∂θ ) + 1/r² sin² θ ∂²C/∂φ² )",
+            "Mass Transfer in Cylindrical Coordinates: ∂C/∂t = D ( 1/r ∂/∂r ( r ∂C/∂r ) + 1/r² ∂²C/∂θ² + ∂²C/∂z² )",
+            "Mass Transfer Coefficient (Film Theory): J = k_c (C_A - C_{A_i})",
+            "Diffusion through Porous Media: D_{eff} = ε/τ D_{AB}",
+            "Molecular Diffusion in Liquids: D_{AB} = 7.4 × 10^{-8} (T/M_{AB})^{1/2} / μ V_A^{0.6}",
+            "Mass Transfer in Packed Columns (Height Equivalent to a Theoretical Plate): HETP = H/N",
+            "Unsteady State Mass Transfer (Crank-Nicolson Method): (C_{i+1} - C_i)/Δt = D ( (C_{i+1} - 2C_i + C_{i-1})/Δx² )",
+            "Mass Transfer in Chemical Absorption: dy/dz = k_g (y* - y) / u_g",
+            "Eddy Diffusion: J = D_{turb} dC/dz",
+            "Concentration Profile in Laminar Flow: C(z, t) = C₀ / √(4 π D t) e^{-z²/4Dt}",
+            "Henry's Law: C = k_H P",
+            "Stokes-Einstein Equation: D = k_B T/6π η r",
+            "Maxwell-Stefan Diffusion: ∇x_A = -J_A/Σ(x_i/D_AB)",
+            "Interphase Mass Transfer (Two-Film Theory): 1/K_G = 1/k_G + 1/k_L",
+            "Mass Transfer in Laminar Flow: J = D (∂C/∂z)",
+            "Mass Transfer in Turbulent Flow: J = D_eff (∂C/∂z)",
+            "Schmidt Number: Sc = μ/ρ D",
+            "Schmidt Number for Gas Mixture: Sc_g = μ_g/ρ_g D_g",
+            "Mass Transfer in a Droplet: J = k_L A (C_i - C)",
+            "Mass Transfer in Packed Towers: h_TU = h/U"
+        ];
+        const chemicalReactionFormulas = [
+            "Design Equation for CSTR: V = (F_{A0} - F_A) / -r_A",
+            "Design Equation for PFR: V = ∫(C_A0 to C_A) dC_A / -r_A",
+            "Non-Isothermal Reactor Design: dT/dV = ΔH_r (-r_A) / ρ C_p",
+            "Catalytic Reaction (Langmuir-Hinshelwood Kinetics): r = (k K_A C_A) / (1 + K_A C_A + K_B C_B)",
+            "Thiele Modulus for Porous Catalysts: φ = √(r_p² k / D_{eff})",
+            "Dimensionless Temperature for CSTR: θ = (T - T₀) / (T_f - T₀)",
+            "Dimensionless Concentration for CSTR: λ = (C_A - C_{A0}) / (C_{Af} - C_{A0})",
+            "Non-Isothermal Reactor Energy Balance: dT/dt = Q / (ρ C_p V) + ΔH_r (-r_A) / (ρ C_p)",
+            "Conversion in Reversible Reactions: X = (K C_{A0} (1 - X)) / (1 + K (1 - X))",
+            "Chain Reaction Kinetics: r = k_1 C_A - k_2 C_B + k_3 C_C²",
+            "Effectiveness Factor for Porous Catalysts: η = 1/φ (tanh(φ) / φ)",
+            "Arrhenius Equation: k = A e^{-Ea/RT}",
+            "PFR Design Equation for First Order Reaction: V = F_A0/k (1/X_A - 1)",
+            "Eley-Rideal Kinetics: r = k1 k2 C_A/(k2 + k1 C_B + k2 C_A)",
+            "Michaelis-Menten Kinetics: r = V_max C_A/(K_M + C_A)",
+            "Parallel Reactions: r = k1 C_A + k2 C_B",
+            "Reversible Reactions: r = k1 C_A - k-1 C_B",
+            "Non-isothermal Batch Reactor: dT/dt = Q/ρCpV + ΔH_r (-r_A)/ρCp",
+            "Catalyst Deactivation: dA/dt = -k_d A",
+            "Effect of Temperature on Equilibrium Constant: K = K_0 e^{-ΔH/RT}"
+        ];
+        const fluidMechanicsFormulas = [
+            "Continuity Equation: ∂ρ/∂t + ∇ · (ρ u) = 0",
+            "Bernoulli's Equation: P/ρg + v²/2g + z = constant",
+            "Navier-Stokes Equation: ρ ( ∂u/∂t + (u · ∇) u ) = -∇P + μ∇²u + ρg",
+            "Reynolds Number: Re = ρvL/μ",
+            "Darcy-Weisbach Equation: h_f = f (L/D) (v²/2g)",
+            "Poiseuille's Law: Q = πr⁴ ΔP / 8μL",
+            "Hagen-Poiseuille Equation: ΔP = 8μLQ / πr⁴",
+            "Moody Chart: f = 64/Re for Re < 2000",
+            "Fanning Friction Factor: f_f = 2τ_w / ρv²",
+            "Drag Coefficient: C_d = 2F_d / ρv²A",
+            "Lift Coefficient: C_l = 2F_l / ρv²A",
+            "Weber Number: We = ρv²L / σ",
+            "Capillary Number: Ca = μv / σ",
+            "Froude Number: Fr = v / √(gL)",
+            "Euler Number: Eu = ΔP / ρv²",
+            "Mach Number: M = v / c",
+            "Stokes' Law: F_d = 6πμRv",
+            "Kinematic Viscosity: ν = μ / ρ",
+            "Hydraulic Diameter: D_h = 4A / P",
+            "Turbulent Flow Velocity Profile: (u/u*) = 2.5 ln ( (yu*)/ν ) + 5.5",
+             "Centrifugal Pump Affinity Laws: Q1/Q2 = N1/N2, H1/H2 = (N1/N2)^2, P1/P2 = (N1/N2)^3",
+            "Continuity Equation for Compressible Flow: ∂(ρu)/∂x + ∂(ρv)/∂y + ∂(ρw)/∂z = 0",
+            "Pressure Drop in Pipes (Darcy-Weisbach Equation): ΔP = f (L/D) (ρv^2/2)",
+            "Drag Force on a Sphere: F_d = 3π μ U D",
+            "Boundary Layer Thickness: δ = √(νx/U)",
+            "Momentum Equation in Differential Form: ∂(ρu)/∂t + ∇·(ρuu) = -∇P + μ∇²u",
+            "Turbulent Kinetic Energy (k): k = 1/2 (u'^2 + v'^2 + w'^2)",
+            "Energy Equation for Incompressible Flow: ∂T/∂t + (u·∇)T = α∇²T",
+            "Head Loss in Pipes: h_f = 4f (L/D) (v^2/2g)",
+            "Hydraulic Radius: R_h = A/P"
+        ];
+        let currentFormulaIndex = {
+            box1: 0,
+            box2: 0,
+            box3: 0,
+            box4: 0
+        };
+
+        function showNextFormula(boxId, formulas) {
+            currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
+            document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
         }
+        document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
+        document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
+        document.getElementById('box3').innerText = chemicalReactionFormulas[currentFormulaIndex.box3];
+        document.getElementById('box4').innerText = fluidMechanicsFormulas[currentFormulaIndex.box4];
+
+        setInterval(() => {
+            showNextFormula('box1', heatTransferFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box2', massTransferFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box3', chemicalReactionFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box4', fluidMechanicsFormulas);
+        }, 7000);
+    </script>
+</body>
+</html>
+    <!-- Function to show the next formula in the given box -->
+    function showNextFormula(boxId, formulas) {
+        currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
+        document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
+    }
+
+    // Initialize the content of the boxes with the first formula
+    document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
+    document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
+    document.getElementById('box3').innerText = chemicalReactionFormulas[currentFormulaIndex.box3];
+    document.getElementById('box4').innerText = fluidMechanicsFormulas[currentFormulaIndex.box4];
+    // Set intervals to automatically flip formulas every 7 seconds
+    setInterval(() => {
+        showNextFormula('box1', heatTransferFormulas);
+    }, 7000);
+    setInterval(() => {
+        showNextFormula('box2', massTransferFormulas);
+    }, 7000);
+    setInterval(() => {
+        showNextFormula('box3', chemicalReactionFormulas);
+    }, 7000);
+    setInterval(() => {
+        showNextFormula('box4', fluidMechanicsFormulas);
+    }, 7000);
     </script>
 </body>
 </html>
