@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage with Formulas</title>
+    <title>Homepage</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,6 +14,7 @@
             flex-wrap: wrap;
             height: 100vh;
             justify-content: space-between;
+            position: relative;
         }
         header {
             background-color: #4CAF50;
@@ -23,57 +24,71 @@
             font-size: 24px;
             width: 100%;
         }
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #ddd;
+        }
         .box {
-            width: 45%;
-            height: 45%;
+            width: 20%;
+            height: 20%;
             margin: 10px;
             border: 2px solid #4CAF50;
             overflow: hidden;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            background-color: #fff;
-        }
-        .center-content {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-        }
-        .center-content div {
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
+            font-size: 14px;
             background-color: #fff;
-            text-align: center;
-            width: 150px;
-            height: 100px;
         }
+        #box1 { top: 0; left: 0; }
+        #box2 { top: 0; right: 0; }
+        #box3 { bottom: 0; left: 0; }
+        #box4 { bottom: 0; right: 0; }
     </style>
 </head>
 <body>
-    <header>
-        Homepage with Formulas
-    </header>
+    <header> Homepage </header>
+    <div class="container">
+        <h2>Topics</h2>
+        <ul>
+            <li onclick="navigateTo('english.html')">English</li>
+            <li onclick="navigateTo('aptitude.html')">Aptitude</li>
+            <li onclick="navigateTo('mathematics.html')">Mathematics</li>
+            <li onclick="navigateTo('core.html')">Core</li>
+        </ul>
+    </div>
+
     <div class="box" id="box1"></div>
     <div class="box" id="box2"></div>
     <div class="box" id="box3"></div>
     <div class="box" id="box4"></div>
 
-    <div class="center-content">
-        <div>Aptitude</div>
-        <div>Mathematics</div>
-        <div>Core</div>
-        <div>English</div>
-    </div>
-
     <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
         const heatTransferFormulas = [
             "Unsteady State Heat Conduction: ∂T/∂t = α ( ∂²T/∂x² + ∂²T/∂y² + ∂²T/∂z² )",
             "Heat Conduction in Spherical Coordinates: (1/r²) ∂/∂r ( r² ∂T/∂r ) + (1/r² sin θ) ∂/∂θ ( sin θ ∂T/∂θ ) + (1/r² sin² θ) ∂²T/∂φ² = (1/α) ∂T/∂t",
@@ -142,6 +157,7 @@
             "Catalyst Deactivation: dA/dt = -k_d A",
             "Effect of Temperature on Equilibrium Constant: K = K_0 e^{-ΔH/RT}"
         ];
+
         const fluidMechanicsFormulas = [
             "Continuity Equation: ∂ρ/∂t + ∇ · (ρ u) = 0",
             "Bernoulli's Equation: P/ρg + v²/2g + z = constant",
@@ -162,50 +178,39 @@
             "Stokes' Law: F_d = 6πμRv",
             "Kinematic Viscosity: ν = μ / ρ",
             "Hydraulic Diameter: D_h = 4A / P",
-            "Turbulent Flow Velocity Profile: (u/u*) = 2.5 ln ( (yu*)/ν ) + 5.5",
-            "Centrifugal Pump Affinity Laws: Q1/Q2 = N1/N2, H1/H2 = (N1/N2)^2, P1/P2 = (N1/N2)^3",
-            "Continuity Equation for Compressible Flow: ∂(ρu)/∂x + ∂(ρv)/∂y + ∂(ρw)/∂z = 0",
-            "Pressure Drop in Pipes (Darcy-Weisbach Equation): ΔP = f (L/D) (ρv^2/2)",
-            "Drag Force on a Sphere: F_d = 3π μ U D",
-            "Boundary Layer Thickness: δ = √(νx/U)",
-            "Momentum Equation in Differential Form: ∂(ρu)/∂t + ∇·(ρuu) = -∇P + μ∇²u",
-            "Turbulent Kinetic Energy (k): k = 1/2 (u'^2 + v'^2 + w'^2)",
-            "Energy Equation for Incompressible Flow: ∂T/∂t + (u·∇)T = α∇²T",
-            "Head Loss in Pipes: h_f = 4f (L/D) (v^2/2g)",
-            "Hydraulic Radius: R_h = A/P"
+            "Turbulent Flow Velocity Profile: (u/u*) = 2.5 ln ( (yu*)/ν ) + 5.5"
         ];
-    ];
 
-    let currentFormulaIndex = {
-        box1: 0,
-        box2: 0,
-        box3: 0,
-        box4: 0
-    };
+        let currentFormulaIndex = {
+            box1: 0,
+            box2: 0,
+            box3: 0,
+            box4: 0
+        };
+        // Function to show the next formula in the given box
+        function showNextFormula(boxId, formulas) {
+            currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
+            document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
+        }
 
-    // Function to show the next formula in the given box
-    function showNextFormula(boxId, formulas) {
-        currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
-        document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
-    }
-    // Initialize the content of the boxes with the first formula
-    document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
-    document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
-    document.getElementById('box3').innerText = chemicalReactionFormulas[currentFormulaIndex.box3];
-    document.getElementById('box4').innerText = fluidMechanicsFormulas[currentFormulaIndex.box4];
-    // Set intervals to automatically flip formulas every 7 seconds
-    setInterval(() => {
-        showNextFormula('box1', heatTransferFormulas);
-    }, 7000);
-    setInterval(() => {
-        showNextFormula('box2', massTransferFormulas);
-    }, 7000);
-    setInterval(() => {
-        showNextFormula('box3', chemicalReactionFormulas);
-    }, 7000);
-    setInterval(() => {
-        showNextFormula('box4', fluidMechanicsFormulas);
-    }, 7000);
-</script>
+        // Initialize the content of the boxes with the first formula
+        document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
+        document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
+        document.getElementById('box3').innerText = chemicalReactionFormulas[currentFormulaIndex.box3];
+        document.getElementById('box4').innerText = fluidMechanicsFormulas[currentFormulaIndex.box4];
+        // Set intervals to automatically flip formulas every 7 seconds
+        setInterval(() => {
+            showNextFormula('box1', heatTransferFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box2', massTransferFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box3', chemicalReactionFormulas);
+        }, 7000);
+        setInterval(() => {
+            showNextFormula('box4', fluidMechanicsFormulas);
+        }, 7000);
+    </script>
 </body>
 </html>
