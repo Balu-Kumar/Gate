@@ -36,6 +36,25 @@
             font-size: 18px;
             background-color: #fff;
         }
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .center-content div {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+            width: 150px;
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +65,14 @@
     <div class="box" id="box2"></div>
     <div class="box" id="box3"></div>
     <div class="box" id="box4"></div>
+
+    <div class="center-content">
+        <div>Aptitude</div>
+        <div>Mathematics</div>
+        <div>Core</div>
+        <div>English</div>
+    </div>
+
     <script>
         const heatTransferFormulas = [
             "Unsteady State Heat Conduction: ∂T/∂t = α ( ∂²T/∂x² + ∂²T/∂y² + ∂²T/∂z² )",
@@ -69,6 +96,7 @@
             "Condensation Heat Transfer (Film Condensation): q'' = 0.943 [(ρ(ρ-ρ_v)gh_fgk^3/μ(T_s-T_sat)L)^1/4]",
             "Heat Transfer in Extended Surfaces (Fins): q_f = √(hPkA_c)(T_b-T_∞) tanh(√(hPk/kA_c)L)"
         ];
+
         const massTransferFormulas = [
             "Unsteady State Diffusion (Fick's Second Law in Spherical Coordinates): ∂C/∂t = D ( 1/r² ∂/∂r ( r² ∂C/∂r ) + 1/r² sin θ ∂/∂θ ( sin θ ∂C/∂θ ) + 1/r² sin² θ ∂²C/∂φ² )",
             "Mass Transfer in Cylindrical Coordinates: ∂C/∂t = D ( 1/r ∂/∂r ( r ∂C/∂r ) + 1/r² ∂²C/∂θ² + ∂²C/∂z² )",
@@ -91,6 +119,7 @@
             "Mass Transfer in a Droplet: J = k_L A (C_i - C)",
             "Mass Transfer in Packed Towers: h_TU = h/U"
         ];
+
         const chemicalReactionFormulas = [
             "Design Equation for CSTR: V = (F_{A0} - F_A) / -r_A",
             "Design Equation for PFR: V = ∫(C_A0 to C_A) dC_A / -r_A",
@@ -134,7 +163,7 @@
             "Kinematic Viscosity: ν = μ / ρ",
             "Hydraulic Diameter: D_h = 4A / P",
             "Turbulent Flow Velocity Profile: (u/u*) = 2.5 ln ( (yu*)/ν ) + 5.5",
-             "Centrifugal Pump Affinity Laws: Q1/Q2 = N1/N2, H1/H2 = (N1/N2)^2, P1/P2 = (N1/N2)^3",
+            "Centrifugal Pump Affinity Laws: Q1/Q2 = N1/N2, H1/H2 = (N1/N2)^2, P1/P2 = (N1/N2)^3",
             "Continuity Equation for Compressible Flow: ∂(ρu)/∂x + ∂(ρv)/∂y + ∂(ρw)/∂z = 0",
             "Pressure Drop in Pipes (Darcy-Weisbach Equation): ΔP = f (L/D) (ρv^2/2)",
             "Drag Force on a Sphere: F_d = 3π μ U D",
@@ -145,43 +174,20 @@
             "Head Loss in Pipes: h_f = 4f (L/D) (v^2/2g)",
             "Hydraulic Radius: R_h = A/P"
         ];
-        let currentFormulaIndex = {
-            box1: 0,
-            box2: 0,
-            box3: 0,
-            box4: 0
-        };
+    ];
 
-        function showNextFormula(boxId, formulas) {
-            currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
-            document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
-        }
-        document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
-        document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
-        document.getElementById('box3').innerText = chemicalReactionFormulas[currentFormulaIndex.box3];
-        document.getElementById('box4').innerText = fluidMechanicsFormulas[currentFormulaIndex.box4];
+    let currentFormulaIndex = {
+        box1: 0,
+        box2: 0,
+        box3: 0,
+        box4: 0
+    };
 
-        setInterval(() => {
-            showNextFormula('box1', heatTransferFormulas);
-        }, 7000);
-        setInterval(() => {
-            showNextFormula('box2', massTransferFormulas);
-        }, 7000);
-        setInterval(() => {
-            showNextFormula('box3', chemicalReactionFormulas);
-        }, 7000);
-        setInterval(() => {
-            showNextFormula('box4', fluidMechanicsFormulas);
-        }, 7000);
-    </script>
-</body>
-</html>
-    <!-- Function to show the next formula in the given box -->
+    // Function to show the next formula in the given box
     function showNextFormula(boxId, formulas) {
         currentFormulaIndex[boxId] = (currentFormulaIndex[boxId] + 1) % formulas.length;
         document.getElementById(boxId).innerText = formulas[currentFormulaIndex[boxId]];
     }
-
     // Initialize the content of the boxes with the first formula
     document.getElementById('box1').innerText = heatTransferFormulas[currentFormulaIndex.box1];
     document.getElementById('box2').innerText = massTransferFormulas[currentFormulaIndex.box2];
@@ -200,6 +206,6 @@
     setInterval(() => {
         showNextFormula('box4', fluidMechanicsFormulas);
     }, 7000);
-    </script>
+</script>
 </body>
 </html>
