@@ -19,11 +19,19 @@
             font-size: 24px;
         }
         .container {
+            display: flex;
+            width: 80%;
             margin: 20px auto;
-            max-width: 800px;
             background-color: #fff;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .column {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .column:last-child {
+            margin-right: 0;
         }
         h2 {
             color: #4CAF50;
@@ -58,8 +66,12 @@
             padding: 10px;
             border-left: 5px solid #4CAF50;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .note-item button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background-color: red;
             color: white;
             padding: 5px;
@@ -71,6 +83,20 @@
         .note-item button:hover {
             background-color: darkred;
         }
+        .back-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px 0;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -78,15 +104,20 @@
         Aptitude Notes
     </header>
     <div class="container">
-        <h2>Write a Note</h2>
-        <div class="notes-container">
-            <input type="date" id="note-date">
-            <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
-            <button onclick="addNote()">Add Note</button>
+        <div class="column">
+            <h2>Write a Note</h2>
+            <div class="notes-container">
+                <input type="date" id="note-date">
+                <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
+                <button onclick="addNote()">Add Note</button>
+            </div>
         </div>
-        <h2>Saved Notes</h2>
-        <ul id="notes-list" class="notes-list"></ul>
+        <div class="column">
+            <h2>Saved Notes</h2>
+            <ul id="notes-list" class="notes-list"></ul>
+        </div>
     </div>
+    <button class="back-button" onclick="goBackHome()">Back to Home</button>
     <script>
         document.getElementById('note-date').valueAsDate = new Date();
 
@@ -131,4 +162,18 @@
                 noteItem.className = 'note-item';
                 noteItem.innerHTML = `
                     <strong>${note.date}:</strong> ${note.content}
-                    <button onclick
+                    <button onclick="deleteNote(${index})">Delete</button>
+                `;
+                notesList.appendChild(noteItem);
+            });
+        }
+
+        function goBackHome() {
+            window.location.href = 'index.html'; // Assuming the home page is 'index.html'
+        }
+
+        // Initial display of notes
+        displayNotes();
+    </script>
+</body>
+</html>
