@@ -151,7 +151,7 @@
                     <button onclick="addRichNote()">Add Note</button>
                     <button onclick="undo()">Undo</button>
                     <button onclick="redo()">Redo</button>
-                    <button id="voice-input-button" onmousedown="startVoiceInput()" onmouseup="stopVoiceInput()">Hold to Speak</button>
+                    <button id="voice-input-button" onclick="toggleVoiceInput()">Hold to Speak</button>
                 </div>
                 <h2>Saved Notes</h2>
                 <ul id="notes-list" class="notes-list"></ul>
@@ -206,9 +206,8 @@
                     <span class="note-preview"><b>${latestNote.date}</b>: ${capitalizePreview(latestNote.content)}</span>
                 `;
                 noteItem.onclick = () => {
-                    displayNoteContent(latestNote.content);
+                    displayNoteContent(latestNote.content, subject, latestNote.date);
                     document.getElementById('delete-note-button').classList.remove('hidden');
-                    document.getElementById('delete-note-button').onclick = () => confirmDelete(subject, latestNote.date);
                 };
                 notesList.appendChild(noteItem);
             }
@@ -225,10 +224,11 @@
             backToList();
         }
 
-        function displayNoteContent(content) {
+        function displayNoteContent(content, subject, date) {
             document.getElementById('display-content').classList.remove('hidden');
             document.getElementById('notes-container').classList.add('hidden');
             document.getElementById('note-content-display').innerHTML = content;
+            document.getElementById('delete-note-button').onclick = () => confirmDelete(subject, date);
         }
 
         function searchNotes() {
@@ -244,9 +244,9 @@
                     <span class="note-preview"><b>${note.date}</b>: ${capitalizePreview(note.content)}</span>
                 `;
                 noteItem.onclick = () => {
-                    displayNoteContent(note.content);
+                    displayNoteContent(note.content, note.subject, note.date);
                     document.getElementById('delete-note-button').classList.remove('hidden');
-                    document.getElementById('delete-note-button').onclick = () => confirmDelete(subject, note.date);
+                    document.getElementById('delete-note-button').onclick = () => confirmDelete(note.subject, note.date);
                 };
                 notesList.appendChild(noteItem);
             });
@@ -291,6 +291,21 @@
         }
     </script>
     <script>
+        let isRecording = false;
+
+        function toggleVoiceInput() {
+            if (isRecording) {
+                stopVoiceInput();
+                document.getElementById('voice-input-button').style.backgroundColor = '#4CAF50';
+                document.getElementById('voice-input-button').innerText = 'Hold to Speak';
+            } else {
+                startVoiceInput();
+                document.getElementById('voice-input-button').style.backgroundColor = 'red';
+                document.getElementById('voice-input-button').innerText = 'Stop Recording';
+            }
+            isRecording = !isRecording;
+        }
+
         var recognition;
         if ('webkitSpeechRecognition' in window) {
             recognition = new webkitSpeechRecognition();
@@ -300,8 +315,8 @@
             alert('Your browser does not support the Web Speech API');
         }
 
-        recognition.continuous = false;
-        recognition.interimResults = false;
+        recognition.continuous = true;
+        recognition.interimResults = true;
         recognition.lang = 'en-US';
 
         function startVoiceInput() {
@@ -313,8 +328,13 @@
         }
 
         recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            quill.clipboard.dangerouslyPasteHTML(quill.getLength() - 1, ' ' + transcript);
+            const interimTranscript = Array.from(event.results)
+                .slice(event.resultIndex)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('');
+
+            quill.clipboard.dangerouslyPasteHTML(quill.getLength() - 1, ' ' + interimTranscript);
         };
 
         recognition.onerror = function(event) {
