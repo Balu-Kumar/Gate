@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mathematics Notes</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -19,16 +20,24 @@
             font-size: 24px;
         }
         .container {
+            display: flex;
+            width: 90%;
             margin: 20px auto;
-            max-width: 800px;
             background-color: #fff;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .column {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .column:last-child {
+            margin-right: 0;
         }
         h2 {
             color: #4CAF50;
         }
-        .notes-container input, .notes-container textarea {
+        .notes-container input, .notes-container .ql-editor {
             width: 100%;
             margin-bottom: 10px;
             padding: 10px;
@@ -58,8 +67,12 @@
             padding: 10px;
             border-left: 5px solid #4CAF50;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         .note-item button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background-color: red;
             color: white;
             padding: 5px;
@@ -71,6 +84,22 @@
         .note-item button:hover {
             background-color: darkred;
         }
+        .back-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px 0;
+            width: 200px;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -78,16 +107,27 @@
         Mathematics Notes
     </header>
     <div class="container">
-        <h2>Write a Note</h2>
-        <div class="notes-container">
-            <input type="date" id="note-date">
-            <textarea id="note-content" rows="4" placeholder="Write your notes here..."></textarea>
-            <button onclick="addNote()">Add Note</button>
+        <div class="column">
+            <h2>Write a Note</h2>
+            <div class="notes-container">
+                <input type="date" id="note-date">
+                <div id="editor-container"></div>
+                <button id="voice-input-button" onclick="toggleVoiceInput()">Hold to Speak</button>
+                <button onclick="addNote()">Add Note</button>
+            </div>
         </div>
-        <h2>Saved Notes</h2>
-        <ul id="notes-list" class="notes-list"></ul>
+        <div class="column">
+            <h2>Saved Notes</h2>
+            <ul id="notes-list" class="notes-list"></ul>
+        </div>
     </div>
+    <button class="back-button" onclick="goBackHome()">Back to Home</button>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow'
+        });
+
         document.getElementById('note-date').valueAsDate = new Date();
 
         function getNotes() {
@@ -101,7 +141,7 @@
 
         function addNote() {
             const date = document.getElementById('note-date').value;
-            const content = document.getElementById('note-content').value;
+            const content = quill.root.innerHTML;
             if (!date || !content) {
                 alert('Please fill out both date and content!');
                 return;
@@ -112,7 +152,7 @@
             saveNotes(notes);
             displayNotes();
             document.getElementById('note-date').valueAsDate = new Date();
-            document.getElementById('note-content').value = '';
+            quill.setContents([]);
         }
 
         function deleteNote(index) {
@@ -137,8 +177,62 @@
             });
         }
 
+        function goBackHome() {
+            window.location.href = 'index.html'; // Assuming the home page is 'index.html'
+        }
+
+        let isRecording = false;
+
+        function toggleVoiceInput() {
+            if (isRecording) {
+                stopVoiceInput();
+                document.getElementById('voice-input-button').style.backgroundColor = '#4CAF50';
+                document.getElementById('voice-input-button').innerText = 'Hold to Speak';
+            } else {
+                startVoiceInput();
+                document.getElementById('voice-input-button').style.backgroundColor = 'red';
+                document.getElementById('voice-input-button').innerText = 'Stop Recording';
+            }
+            isRecording = !isRecording;
+        }
+
+        var recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        } else if ('SpeechRecognition' in window) {
+            recognition = new SpeechRecognition();
+        } else {
+            alert('Your browser does not support the Web Speech API');
+        }
+
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+
+        function startVoiceInput() {
+            recognition.start();
+        }
+
+        function stopVoiceInput() {
+            recognition.stop();
+        }
+
+        recognition.onresult = function(event) {
+            const interimTranscript = Array.from(event.results)
+                .slice(event.resultIndex)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('');
+
+            quill.clipboard.dangerouslyPasteHTML(quill.getLength() - 1, ' ' + interimTranscript);
+        };
+
+        recognition.onerror = function(event) {
+            console.error(event.error);
+        };
+
+        // Initial display of notes
         displayNotes();
     </script>
 </body>
 </html>
-``
