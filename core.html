@@ -147,17 +147,6 @@
                 <h2 id="notes-title"></h2>
                 <div class="notes-container">
                     <input type="date" id="note-date">
-                    <div id="toolbar">
-                        <button class="ql-bold">Bold</button>
-                        <button class="ql-italic">Italic</button>
-                        <button class="ql-underline">Underline</button>
-                        <button class="ql-insert">Insert</button>
-                        <button class="ql-header" value="1">H1</button>
-                        <button class="ql-header" value="2">H2</button>
-                        <button class="ql-tx">Tx</button>
-                        <button class="ql-image">Image</button>
-                        <button class="ql-link">Link</button>
-                    </div>
                     <div id="editor-container"></div>
                     <button onclick="addRichNote()">Add Note</button>
                     <button onclick="undo()">Undo</button>
@@ -179,15 +168,12 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
         var quill = new Quill('#editor-container', {
-            theme: 'snow',
-            modules: {
-                toolbar: '#toolbar'
-            }
+            theme: 'snow'
         });
 
         document.getElementById('note-date').valueAsDate = new Date();
 
-             function showNotes(subject) {
+        function showNotes(subject) {
             document.getElementById('notes-container').classList.remove('hidden');
             document.getElementById('display-content').classList.add('hidden');
             document.getElementById('notes-title').innerText = subject.replace(/_/g, ' ') + ' Notes';
